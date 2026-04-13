@@ -18,9 +18,17 @@ app.get("/me", authenticate, (req: any, res) => {
   });
 });
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
+app.options("*", cors());
 app.use(helmet());
-app.use(errorHandler);
 app.use("/auth", authRoutes);
 app.use("/projects", projectRoutes);
 app.use("/", taskRoutes);
@@ -33,8 +41,11 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
+app.use(errorHandler);
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
+  console.log("PORT FROM ENV:", process.env.PORT);
   console.log(`🚀 Server running on port ${PORT}`);
 });

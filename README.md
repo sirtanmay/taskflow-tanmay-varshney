@@ -1,5 +1,51 @@
 # TaskFlow — Full Stack Task Management System
 
+## 🚀 Quick Start (Recommended)
+
+Run the project locally using Docker (no local setup required beyond Docker):
+
+```bash
+git clone <repo-url>
+cd taskflow
+
+cp backend/.env.example backend/.env
+
+docker compose up --build
+```
+
+---
+
+## 🌐 Access the App
+
+Frontend: http://localhost:3000  
+Backend: http://localhost:5001
+
+---
+
+## 🔐 Test Credentials
+
+Email: test@example.com  
+Password: password123
+
+---
+
+## 🎥 Demo
+
+Loom Video: <add-your-video-link-here>
+
+---
+
+## 🧩 How to Use
+
+1. Register a new user or use test credentials
+2. Create a project
+3. Add tasks to the project
+4. Update task status and priority
+5. Use filters and pagination
+6. View project stats
+
+---
+
 ## 1. Overview
 
 TaskFlow is a minimal yet production-oriented task management system that enables users to manage projects and tasks with proper authentication, relational data handling, and a clean REST API design.
@@ -26,6 +72,12 @@ The goal of this project is not just feature completion, but demonstrating **cle
 - Zod (validation)
 - JWT (authentication)
 - Bcrypt (password hashing)
+
+### Frontend
+
+- Next.js
+- TypeScript
+- Tailwind CSS
 
 ### Infrastructure
 
@@ -99,10 +151,13 @@ creator: {
 ```
 
 This ensures:
-• Data consistency
-• Referential integrity
-• Cleaner abstractions
-• Prevention of orphan records
+
+- Data consistency
+- Referential integrity
+- Cleaner abstractions
+- Prevention of orphan records
+
+---
 
 ### 3.5 Authorization Design
 
@@ -192,50 +247,21 @@ Supports:
 
 ---
 
-## 6. Running Locally
-
-### Prerequisites
-
-- Docker
-- Docker Compose
-
----
-
-### Setup
-
-```bash
-git clone <repo-url>
-cd taskflow
-cp .env.example .env
-docker compose up
-```
-
----
-
-### Access
-
-Frontend: http://localhost:3000  
-Backend: http://localhost:5001
-
----
-
-## 7. Database & Migrations
+## 6. Database & Migrations
 
 - Managed via Prisma migrations
 - No auto-sync used
 - Explicit schema evolution
 
----
-
-### Run migrations manually (if needed):
+> Note: Ensure migrations are applied. If not automated, run:
 
 ```bash
-npx prisma migrate dev
+docker compose exec backend npx prisma migrate deploy
 ```
 
 ---
 
-## 8. Seed Data
+## 7. Seed Data
 
 The project includes:
 
@@ -243,17 +269,12 @@ The project includes:
 - 1 project
 - Multiple tasks
 
-Example credentials:
-
-Email: test@example.com  
-Password: password123
-
 ---
 
-## 9. Error Handling
+## 8. Error Handling
 
 - Centralized error middleware
-- Structured responses:
+- Structured responses
 
 ```json
 {
@@ -266,7 +287,7 @@ Password: password123
 
 ---
 
-## 10. Design Decisions & Tradeoffs
+## 9. Design Decisions & Tradeoffs
 
 ### What was prioritized:
 
@@ -284,7 +305,7 @@ Password: password123
 
 ---
 
-## 11. What I Would Do With More Time
+## 10. What I Would Do With More Time
 
 - Add refresh tokens & session management
 - Introduce role-based permissions
@@ -295,16 +316,14 @@ Password: password123
 
 ---
 
-## 12. Key Highlights
+## 11. Submission Details
 
-- Strong separation of concerns
-- Proper relational data modeling
-- Clean REST API design
-- Thoughtful handling of edge cases (null → "unassigned")
-- Bonus features (stats + pagination)
+- Candidate: Tanmay Varshney
+- Tech Stack: Next.js, Node.js, Express, Prisma, PostgreSQL, Docker
+- Architecture: Modular layered backend with REST API
 
 ---
 
-## 13. Conclusion
+## 12. Conclusion
 
 This project focuses on building a small but complete system, demonstrating not just functionality, but engineering decisions, tradeoffs, and production-oriented thinking.
