@@ -9,6 +9,11 @@ export default function DashboardPage() {
 
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    total: 0,
+    inProgress: 0,
+    completed: 0,
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newProject, setNewProject] = useState({
     name: "",
@@ -20,7 +25,30 @@ export default function DashboardPage() {
     const fetchProjects = async () => {
       try {
         const res = await api.get("/projects");
-        setProjects(res.data.data || []);
+        const projectsData = res.data.data || [];
+        setProjects(projectsData);
+
+        // fetch stats for all projects
+        let total = 0;
+        let inProgress = 0;
+        let completed = 0;
+
+        await Promise.all(
+          projectsData.map(async (project: any) => {
+            try {
+              const statsRes = await api.get(`/projects/${project.id}/stats`);
+              const data = statsRes.data?.data || statsRes.data;
+
+              total += data.total_tasks ?? 0;
+              inProgress += data.by_status?.in_progress ?? 0;
+              completed += data.by_status?.done ?? 0;
+            } catch (err) {
+              console.error("Failed to fetch stats for project", project.id);
+            }
+          }),
+        );
+
+        setStats({ total, inProgress, completed });
       } catch (err) {
         console.error("Failed to fetch projects", err);
       } finally {
@@ -54,17 +82,17 @@ export default function DashboardPage() {
       <div className="grid grid-cols-3 gap-6 mb-10">
         <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
           <p className="text-sm text-neutral-400">Total Tasks</p>
-          <h2 className="text-2xl font-semibold mt-2">0</h2>
+          <h2 className="text-2xl font-semibold mt-2">{stats.total}</h2>
         </div>
 
         <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
           <p className="text-sm text-neutral-400">In Progress</p>
-          <h2 className="text-2xl font-semibold mt-2">0</h2>
+          <h2 className="text-2xl font-semibold mt-2">{stats.inProgress}</h2>
         </div>
 
         <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
           <p className="text-sm text-neutral-400">Completed</p>
-          <h2 className="text-2xl font-semibold mt-2">0</h2>
+          <h2 className="text-2xl font-semibold mt-2">{stats.completed}</h2>
         </div>
       </div>
 
