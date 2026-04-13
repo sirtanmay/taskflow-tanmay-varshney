@@ -143,19 +143,22 @@ export default function ProjectPage() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    const ok = window.confirm("Delete this task?");
-                    if (!ok) return;
 
-                    (async () => {
-                      try {
-                        await api.delete(`/tasks/${task.id}`);
-                        setTasks((prev) =>
-                          prev.filter((t) => t.id !== task.id),
-                        );
-                      } catch (err) {
-                        console.error("Failed to delete task", err);
-                      }
-                    })();
+                    setTimeout(() => {
+                      const ok = window.confirm("Delete this task?");
+                      if (!ok) return;
+
+                      (async () => {
+                        try {
+                          await api.delete(`/tasks/${task.id}`);
+                          setTasks((prev) =>
+                            prev.filter((t) => t.id !== task.id),
+                          );
+                        } catch (err) {
+                          console.error("Failed to delete task", err);
+                        }
+                      })();
+                    }, 0);
                   }}
                   className="text-xs text-red-400 hover:text-red-300 ml-3 opacity-0 group-hover:opacity-100 transition"
                 >
