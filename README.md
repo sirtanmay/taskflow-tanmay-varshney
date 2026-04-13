@@ -15,6 +15,12 @@ docker compose up --build
 
 ---
 
+## Notes for Evaluators
+
+- App is fully Dockerized
+- Migrations and seed run automatically
+- No local setup required
+
 ## 🌐 Access the App
 
 Frontend: http://localhost:3000  
